@@ -1,0 +1,25 @@
+<nav class="nav-sidebar">
+    {% if headings %}
+        <p class="toc">目次</p>
+        <ul>
+            {% for i, heading in headings %}
+                {% if i == "2" %}
+                    <li class="heading-2"><a href="#">{{ heading }}</a></li>
+                {% elif i == "3" %}
+                    <li class="heading-3"><a href="#"> - {{ heading }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p class="sidebar-category">カテゴリ一覧</p>
+    <ul>
+        {% for category, sub_categories in category_sub_category_dict.items %}
+            <li class="heading-2"><a href="{% url 'blog:category_post' category.slug %}">
+                {% if category.fontawesome %}<i class="{{ category.fontawesome }}"></i>{% endif %} {{ category.name }}</a></li>
+            {% for sub_category in sub_categories %}
+            <li class="heading-3"><a href="{% url 'blog:sub_category_post' category.slug sub_category.slug %}">&ensp;-&nbsp;{{ sub_category.name }}
+            &ensp;<span class="num-posts">{{ sub_category.num_posts }}</span></a></li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</nav>

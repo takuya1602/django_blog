@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}「{{ category.name }}」の投稿一覧{% endblock %}
+
+{% block content %}
+<h1>{% if category.fontawesome %}<i class="{{ category.fontawesome }}"></i>{% endif %} {{ category.name }}</h1>
+    <div class="grid">
+        {% for post in object_list %}
+            {% if user.is_authenticated or post.is_public %}
+                    <div class="item">
+                        <a href="{% url 'blog:post_detail' post.slug %}">
+                            {% if post.eye_catching_img %}
+                                <img src="{{ post.eye_catching_img.url }}"
+                                    alt="{{ post.title }}">
+                            {% endif %}
+                            <p>{% if not post.is_public %}[下書き]{% endif %}{{ post.title }}</p>
+                        </a>
+                    </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

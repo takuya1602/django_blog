@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+<div class="article-header">
+    <h1>{{ object.title }}</h1>
+    <p><i class="fa-solid fa-rotate-right my-font-color"></i> {{ object.updated_at|date:"Y-m-j" }}　｜　
+        <i class="fa-solid fa-hourglass-empty my-font-color"></i> {{ read_time|floatformat:0 }}分 ({{ article_length }}文字)　｜　
+       <a href="{% url 'blog:category_post' object.category.slug %}">
+           {% if object.category.fontawesome %}<i class="{{ object.category.fontawesome }}"></i>{% endif %} {{ object.category }}</a>
+        > <a href="{% url 'blog:sub_category_post' object.category object.sub_category.slug %}">{{ object.sub_category }}</a>
+    </p>
+</div>
+<div class="article-container">
+    <div class="article-content">
+        {% if post.eye_catching_img %}
+            <img src="{{ post.eye_catching_img.url }}" alt="{{ post.title }}">
+        {% endif %}
+        {{ object.content|safe }}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}「{{ sub_category.name }}」{% endblock %}
+
+{% block content %}
+<h1><a href="{% url 'blog:category_post' sub_category.parent_category.slug %}">
+    {% if sub_category.parent_category.fontawesome %}
+    <i class="{{ sub_category.parent_category.fontawesome }}"></i>{% endif %}
+     {{ sub_category.parent_category.name }}</a> > {{ sub_category.name }}</h1>
+    <div class="grid">
+        {% for post in object_list %}
+            {% if user.is_authenticated or post.is_public %}
+                    <div class="item">
+                        <a href="{% url 'blog:post_detail' post.slug %}">
+                            {% if post.eye_catching_img %}
+                                <img src="{{ post.eye_catching_img.url }}"
+                                    alt="{{ post.title }}">
+                            {% endif %}
+                            <p>{% if not post.is_public %}[下書き]{% endif %}{{ post.title }}</p>
+                        </a>
+                    </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
